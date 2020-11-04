@@ -36,6 +36,7 @@ del modelo en una sola respuesta.  Esta responsabilidad
 recae sobre el controlador.
 """
 
+
 # ___________________________________________________
 #  Inicializacion del catalogo
 # ___________________________________________________
@@ -78,6 +79,7 @@ def loadServices(analyzer, servicesfile):
         lastservice = service
     model.addRouteConnections(analyzer)
     return analyzer
+
 
 # ___________________________________________________
 #  Funciones para consultas

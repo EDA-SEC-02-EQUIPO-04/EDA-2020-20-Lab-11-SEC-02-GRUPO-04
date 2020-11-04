@@ -24,12 +24,12 @@
  *
  """
 
-
 import sys
 import config
 from App import controller
 from DISClib.ADT import stack
 import timeit
+
 assert config
 
 """
@@ -47,6 +47,7 @@ operación seleccionada.
 servicefile = 'bus_routes_14000.csv'
 initialStation = None
 recursionLimit = 20000
+
 
 # ___________________________________________________
 #  Menu principal
@@ -101,7 +102,7 @@ def optionSix():
     if path is not None:
         pathlen = stack.size(path)
         print('El camino es de longitud: ' + str(pathlen))
-        while (not stack.isEmpty(path)):
+        while not stack.isEmpty(path):
             stop = stack.pop(path)
             print(stop)
     else:

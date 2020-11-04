@@ -31,12 +31,14 @@ from DISClib.DataStructures import listiterator as it
 from DISClib.Algorithms.Graphs import scc
 from DISClib.Algorithms.Graphs import dijsktra as djk
 from DISClib.Utils import error as error
+
 assert config
 
 """
 En este archivo definimos los TADs que vamos a usar y las operaciones
 de creacion y consulta sobre las estructuras de datos.
 """
+
 
 # -----------------------------------------------------
 #                       API
@@ -53,21 +55,14 @@ def newAnalyzer():
            vertice determinado a todos los otros vértices del grafo
     """
     try:
-        analyzer = {
-                    'stops': None,
-                    'connections': None,
-                    'components': None,
-                    'paths': None
-                    }
+        analyzer = {'stops': m.newMap(numelements=14000,
+                                      maptype='PROBING',
+                                      comparefunction=compareStopIds),
+                    'connections': gr.newGraph(datastructure='ADJ_LIST',
+                                               directed=True,
+                                               size=14000,
+                                               comparefunction=compareStopIds), 'components': None, 'paths': None}
 
-        analyzer['stops'] = m.newMap(numelements=14000,
-                                     maptype='PROBING',
-                                     comparefunction=compareStopIds)
-
-        analyzer['connections'] = gr.newGraph(datastructure='ADJ_LIST',
-                                              directed=True,
-                                              size=14000,
-                                              comparefunction=compareStopIds)
         return analyzer
     except Exception as exp:
         error.reraise(exp, 'model:newAnalyzer')
@@ -162,6 +157,7 @@ def addConnection(analyzer, origin, destination, distance):
         gr.addEdge(analyzer['connections'], origin, destination, distance)
     return analyzer
 
+
 # ==============================
 # Funciones de consulta
 # ==============================
@@ -227,11 +223,11 @@ def servedRoutes(analyzer):
     itlstvert = it.newIterator(lstvert)
     maxvert = None
     maxdeg = 0
-    while(it.hasNext(itlstvert)):
+    while it.hasNext(itlstvert):
         vert = it.next(itlstvert)
         lstroutes = m.get(analyzer['stops'], vert)['value']
         degree = lt.size(lstroutes)
-        if(degree > maxdeg):
+        if degree > maxdeg:
             maxvert = vert
             maxdeg = degree
     return maxvert, maxdeg
